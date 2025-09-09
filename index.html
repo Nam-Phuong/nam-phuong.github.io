@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAM★ — Bodypainting Artist</title>
+    <style>
+        /* ========== VARIABLES & RESET ========== */
+        :root {
+            /* Dark Theme (default) */
+            --bg-primary: #000;
+            --bg-secondary: #0a0a0a;
+            --bg-tertiary: #111;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent: #ff3e9d;
+            --accent-light: #ff6ec7;
+            --card-bg: #151515;
+            --shadow: rgba(0,0,0,0.5);
+            --border-accent: #ff3e9d;
+            --header-bg: rgba(0,0,0,0.8);
+            --hero-overlay: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+        }
+
+        .light-theme {
+            /* Light Theme — épuré, neutre, pas “barbie” */
+            --bg-primary: #fafafa;
+            --bg-secondary: #f0f0f0;
+            --bg-tertiary: #e8e8e8;
+            --text-primary: #222;
+            --text-secondary: #555;
+            --accent: #c24d7a; /* rose profond, pas flashy */
+            --accent-light: #d97aa3;
+            --card-bg: #ffffff;
+            --shadow: rgba(0,0,0,0.1);
+            --border-accent: #c24d7a;
+            --header-bg: rgba(255,255,255,0.85);
+            --hero-overlay: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* ========== HEADER ========== */
+        header {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--header-bg);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.4s ease;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .contact-email, .instagram-link {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-email:hover, .instagram-link:hover {
+            color: var(--accent);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            background: var(--hero-overlay), url('https://via.placeholder.com/1920x1080') no-repeat center center/cover;
+            transition: background 0.4s ease;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(194, 77, 122, 0.5);
+            transition: color 0.4s;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            transition: color 0.4s;
+        }
+
+        /* ========== INTERVENTIONS ========== */
+        .interventions {
+            padding: 5rem 10%;
+            background-color: var(--bg-secondary);
+            transition: background-color 0.4s ease;
+        }
+
+        .interventions h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+            transition: color 0.4s;
+        }
+
+        .intervention-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .intervention-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
+            color: var(--text-primary);
+        }
+
+        .intervention-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(194, 77, 122, 0.2);
+        }
+
+        .intervention-card h3 {
+            color: var(--accent-light);
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            transition: color 0.4s;
+        }
+
+        .intervention-card p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .contact-cta {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .contact-cta:hover {
+            background: var(--accent-light);
+        }
+
+        /* ========== AGENDA ========== */
+        .agenda {
+            padding: 5rem 10%;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.4s ease;
+        }
+
+        .agenda h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+            transition: color 0.4s;
+        }
+
+        .event-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .event {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--border-accent);
+            position: relative;
+            transition: background 0.4s ease, border-color 0.4s ease;
+            color: var(--text-primary);
+        }
+
+        .event h3 {
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+            transition: color 0.4s;
+        }
+
+        .event-date {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            transition: color 0.4s;
+        }
+
+        .event-location {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            transition: color 0.4s;
+        }
+
+        .event-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.4s;
+        }
+
+        .event-link:hover {
+            text-decoration: underline;
+        }
+
+        .event-past {
+            opacity: 0.7;
+            border-left-color: var(--text-secondary);
+        }
+
+        /* ========== PORTFOLIO ========== */
+        .portfolio {
+            padding: 5rem 5%;
+            background-color: var(--bg-tertiary);
+            transition: background-color 0.4s ease;
+        }
+
+        .portfolio h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+            transition: color 0.4s;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+
+        .portfolio-item:hover img {
+            filter: brightness(1.1);
+        }
+
+        /* ========== LIGHTBOX ========== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            flex-direction: column;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 85vh;
+        }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(194, 77, 122, 0.5);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+
+        .lightbox-nav button {
+            background: rgba(194, 77, 122, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .lightbox-nav button:hover {
+            background: rgba(194, 77, 122, 1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            padding: 2rem 5%;
+            text-align: center;
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.4s;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .interventions, .agenda {
+                padding: 3rem 5%;
+            }
+            .intervention-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">NAM★</a>
+        <div class="header-right">
+            <a href="mailto:bodypainting@nam-phuong.fr" class="contact-email">bodypainting@nam-phuong.fr</a>
+            <a href="https://instagram.com/nam_bodypainting" target="_blank" class="instagram-link">@nam_bodypainting</a>
+            <button class="theme-toggle" id="theme-toggle">🌓</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>NAM★</h1>
+        <p>Artiste Bodypainting — Transformant la peau en toile, l’éphémère en éternel.</p>
+    </section>
+
+    <!-- Interventions Section -->
+    <section class="interventions">
+        <h2>Mes interventions</h2>
+        <div class="intervention-grid">
+            <!-- Séance Individuelle -->
+            <div class="intervention-card">
+                <h3>Séance individuelle</h3>
+                <p>Offrir un espace de bien-être dédié à votre corps et à votre écoute en passant par de la peinture sur corps. Vous devenez une œuvre vivante éphémère.</p>
+                <p><strong>Où ?</strong> À domicile, chez vous ou chez moi (jusqu’à 1h de Bègles).</p>
+                <p><strong>Comment ?</strong> Durée de 30min à 3h, ambiance sur-mesure, peintures véganes.</p>
+                <p><strong>Contributions :</strong> Prix libres et conscients (€ ou Ğ1). ~15-20€/h soutient mon activité.</p>
+                <a href="mailto:bodypainting@nam-phuong.fr" class="contact-cta">Me contacter pour réserver</a>
+            </div>
+
+            <!-- Séance Collective -->
+            <div class="intervention-card">
+                <h3>Séance collective</h3>
+                <p>Ateliers de bodypainting en petit groupe (entre ami·e·s, équipes, ou collectifs). Un moment de partage, de jeu et d’expression corporelle douce.</p>
+                <p><strong>Durée :</strong> 2h à 4h selon le groupe.</p>
+                <p><strong>Lieu :</strong> Chez vous, en extérieur ou en lieu partenaire.</p>
+                <p><strong>Matériel :</strong> Fourni (peintures véganes, pinceaux, protections).</p>
+                <a href="mailto:bodypainting@nam-phuong.fr" class="contact-cta">Demander un devis</a>
+            </div>
+
+            <!-- Intervention Événementielle -->
+            <div class="intervention-card">
+                <h3>Intervention événementielle</h3>
+                <p>Animation bodypainting pour festivals, vernissages, mariages, team-building ou événements engagés. Je crée des expériences visuelles et sensorielles inoubliables.</p>
+                <p><strong>Format :</strong> Stand libre, performances, ou ateliers participatifs.</p>
+                <p><strong>Durée :</strong> Demi-journée, journée complète ou sur plusieurs jours.</p>
+                <p><strong>Public :</strong> Tout âge, tout public (adaptation selon contexte).</p>
+                <a href="mailto:bodypainting@nam-phuong.fr" class="contact-cta">Discutons de votre projet</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agenda Section -->
+    <section class="agenda">
+        <h2>Agenda</h2>
+        <div class="event-list">
+            <!-- À venir -->
+            <div class="event">
+                <h3>Tu vas bien ?</h3>
+                <div class="event-date">Samedi 11 octobre 2025</div>
+                <div class="event-location">Moon — 45 Rue de la Compagnie du Midi, Bordeaux</div>
+                <p>Participation à l’événement bien-être et arts sensibles. Venez découvrir le bodypainting dans un cadre doux et bienveillant.</p>
+                <a href="https://tuvasbien.info/#accueil" target="_blank" class="event-link">Voir le site de l’événement →</a>
+            </div>
+
+            <!-- Passés (exemples) -->
+            <div class="event event-past">
+                <h3>Festival des Corps Sensibles</h3>
+                <div class="event-date">12-14 juillet 2024</div>
+                <div class="event-location">Bègles, Gironde</div>
+                <p>Atelier collectif et performance en continu sur 3 jours.</p>
+            </div>
+
+            <div class="event event-past">
+                <h3>Soirée Sensorielle</h3>
+                <div class="event-date">5 mars 2024</div>
+                <div class="event-location">Espace Lierre, Bordeaux</div>
+                <p>Performance bodypainting en duo avec une danseuse contemporaine.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio">
+        <h2>Portfolio</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item" data-index="0">
+                <img src="https://via.placeholder.com/600x800/c24d7a/ffffff?text=Individuel+1" alt="Séance individuelle 1">
+            </div>
+            <div class="portfolio-item" data-index="1">
+                <img src="https://via.placeholder.com/600x800/7a4dc2/ffffff?text=Collectif+1" alt="Séance collective 1">
+            </div>
+            <div class="portfolio-item" data-index="2">
+                <img src="https://via.placeholder.com/600x800/4dc27a/ffffff?text=Événement+1" alt="Intervention événementielle 1">
+            </div>
+            <div class="portfolio-item" data-index="3">
+                <img src="https://via.placeholder.com/600x800/c27a4d/ffffff?text=Individuel+2" alt="Séance individuelle 2">
+            </div>
+            <div class="portfolio-item" data-index="4">
+                <img src="https://via.placeholder.com/600x800/7ac24d/000000?text=Collectif+2" alt="Séance collective 2">
+            </div>
+            <div class="portfolio-item" data-index="5">
+                <img src="https://via.placeholder.com/600x800/c24d4d/ffffff?text=Événement+2" alt="Intervention événementielle 2">
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="close-lightbox">✕</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Agrandi">
+            <div class="lightbox-nav">
+                <button id="prev">‹</button>
+                <button id="next">›</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            &copy; 2025 NAM★ — Bodypainting Artist. 
+            Contact : <a href="mailto:bodypainting@nam-phuong.fr">bodypainting@nam-phuong.fr</a> • 
+            Instagram : <a href="https://instagram.com/nam_bodypainting" target="_blank">@nam_bodypainting</a>
+        </p>
+    </footer>
+
+    <script>
+        // ========== THEME TOGGLE ==========
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme === 'light' || (!savedTheme && !prefersDarkScheme)) {
+            body.classList.add('light-theme');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        // ========== LIGHTBOX ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.portfolio-item');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.getElementById('close-lightbox');
+            const prevBtn = document.getElementById('prev');
+            const nextBtn = document.getElementById('next');
+
+            let currentIndex = 0;
+            const totalImages = items.length;
+
+            // Open lightbox
+            items.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    currentIndex = index;
+                    const imgSrc = item.querySelector('img').src;
+                    lightboxImg.src = imgSrc;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close lightbox
+            closeBtn.addEventListener('click', () => {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // Navigate
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+                updateLightboxImage();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % totalImages;
+                updateLightboxImage();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+
+                if (e.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                } else if (e.key === 'ArrowLeft') {
+                    currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+                    updateLightboxImage();
+                } else if (e.key === 'ArrowRight') {
+                    currentIndex = (currentIndex + 1) % totalImages;
+                    updateLightboxImage();
+                }
+            });
+
+            function updateLightboxImage() {
+                const newSrc = document.querySelector(`.portfolio-item[data-index="${currentIndex}"] img`).src;
+                lightboxImg.src = newSrc;
+            }
+        });
+    </script>
+
+</body>
+</html>
