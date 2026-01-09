@@ -1,0 +1,54 @@
+name: Deploy VitePress site
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies (bun)
+        run: bun install
+
+      - name: Build site (bun)
+        run: bun run vp:build
+
+      - name: Prepare pages artifact
+        run: |
+          rm -rf public || true
+          if [ -d ".vitepress/dist" ]; then
+            mkdir -p public
+            cp -a .vitepress/dist/. public/
+          elif [ -d "dist" ]; then
+            mkdir -p public
+            cp -a dist/. public/
+          else
+            echo "ERROR: build output not found"
+            ls -la
+            exit 1
+          fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
