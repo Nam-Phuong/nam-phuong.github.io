@@ -1,139 +1,302 @@
 /**
- * Customize default theme styling by overriding CSS variables:
- * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ * Theme NAM★ - Sobriété et élégance
  */
 
-/**
- * Colors
- *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
- *
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *   satisfy the contrast ratio against when used on top of `XXX-soft`.
- *
- * - `XXX-2`: The color used mainly for hover state of the button.
- *
- * - `XXX-3`: The color for solid background, such as bg color of the button.
- *   It must satisfy the contrast ratio with pure white (#ffffff) text on
- *   top of it.
- *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *   or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *   on top of it.
- *
- *   The soft color must be semi transparent alpha channel. This is crucial
- *   because it allows adding multiple "soft" colors on top of each other
- *   to create an accent, such as when having inline code block inside
- *   custom containers.
- *
- * - `default`: The color used purely for subtle indication without any
- *   special meanings attached to it such as bg color for menu hover state.
- *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *   brand theme, etc.
- *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *   brand color for this by default.
- *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *   container, badges, etc.
- *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *   in custom container, badges, etc.
- * -------------------------------------------------------------------------- */
-
 :root {
-  --vp-c-default-1: var(--vp-c-gray-1);
-  --vp-c-default-2: var(--vp-c-gray-2);
-  --vp-c-default-3: var(--vp-c-gray-3);
-  --vp-c-default-soft: var(--vp-c-gray-soft);
+  /* Couleurs brand discrètes */
+  --vp-c-brand-1: #333333;
+  --vp-c-brand-2: #555555;
+  --vp-c-brand-3: #2c2c2c;
+  --vp-c-brand-soft: rgba(50, 50, 50, 0.05);
 
-  --vp-c-brand-1: var(--vp-c-indigo-1);
-  --vp-c-brand-2: var(--vp-c-indigo-2);
-  --vp-c-brand-3: var(--vp-c-indigo-3);
-  --vp-c-brand-soft: var(--vp-c-indigo-soft);
+  /* Accent subtil */
+  --vp-c-tip-1: #666666;
+  --vp-c-tip-2: #888888;
+  --vp-c-tip-3: #555555;
+  --vp-c-tip-soft: rgba(100, 100, 100, 0.05);
 
-  --vp-c-tip-1: var(--vp-c-brand-1);
-  --vp-c-tip-2: var(--vp-c-brand-2);
-  --vp-c-tip-3: var(--vp-c-brand-3);
-  --vp-c-tip-soft: var(--vp-c-brand-soft);
-
-  --vp-c-warning-1: var(--vp-c-yellow-1);
-  --vp-c-warning-2: var(--vp-c-yellow-2);
-  --vp-c-warning-3: var(--vp-c-yellow-3);
-  --vp-c-warning-soft: var(--vp-c-yellow-soft);
-
-  --vp-c-danger-1: var(--vp-c-red-1);
-  --vp-c-danger-2: var(--vp-c-red-2);
-  --vp-c-danger-3: var(--vp-c-red-3);
-  --vp-c-danger-soft: var(--vp-c-red-soft);
+  --vp-c-warning-1: #d4a574;
+  --vp-c-warning-2: #e0b589;
+  --vp-c-warning-3: #c99860;
+  --vp-c-warning-soft: rgba(212, 165, 116, 0.1);
 }
 
 /**
- * Component: Button
- * -------------------------------------------------------------------------- */
+ * Améliorations de typographie et espacement
+ */
 
 :root {
-  --vp-button-brand-border: transparent;
-  --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand-3);
-  --vp-button-brand-hover-border: transparent;
-  --vp-button-brand-hover-text: var(--vp-c-white);
-  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
-  --vp-button-brand-active-border: transparent;
-  --vp-button-brand-active-text: var(--vp-c-white);
-  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+  --vp-font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --vp-font-family-mono: 'Menlo', 'Courier New', monospace;
+}
+
+body {
+  line-height: 1.7;
+  letter-spacing: 0.3px;
 }
 
 /**
- * Component: Home
- * -------------------------------------------------------------------------- */
+ * Heading styles
+ */
 
-:root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #bd34fe 30%,
-    #41d1ff
-  );
-
-  --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #bd34fe 50%,
-    #47caff 50%
-  );
-  --vp-home-hero-image-filter: blur(44px);
+h1 {
+  margin: 2rem 0 1rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
+h2 {
+  margin: 2.5rem 0 1rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding-bottom: 0.8rem;
+}
+
+h3 {
+  margin: 1.8rem 0 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+/**
+ * Content spacing amélioré
+ */
+
+.vp-doc {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/**
+ * Image styling
+ */
+
+.vp-doc img {
+  border-radius: 8px;
+  margin: 2rem 0;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.vp-doc img:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/**
+ * Link styling
+ */
+
+a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.3);
+}
+
+a:hover {
+  color: var(--vp-c-brand-2);
+  border-bottom-color: rgba(51, 51, 51, 0.6);
+}
+
+/**
+ * Sections avec espacements
+ */
+
+hr {
+  margin: 3rem 0;
+  border: none;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+/**
+ * Navigation bar
+ */
+
+.vp-nav {
+  background: var(--vp-c-bg);
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+/**
+ * Galerie d'images en grille
+ */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.gallery img:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/**
+ * Grille de cartouches (interventions, etc.)
+ */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/**
+ * Cartouches de catégories (interventions)
+ */
+
+.service-card {
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.services-grid .service-card {
+  margin: 0;
+}
+
+.service-card:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.service-card h3,
+.service-card h2 {
+  margin-top: 0;
+  color: var(--vp-c-brand-1);
+  margin-bottom: 1rem;
+}
+
+.service-card p {
+  margin: 0.8rem 0;
+  color: var(--vp-c-text-2);
+}
+
+.service-card strong {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+
+.service-card a {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--vp-c-brand-1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.service-card a:hover {
+  background: var(--vp-c-brand-2);
+  border: none;
+  transform: none;
+}
+
+/**
+ * Événements avec cartes
+ */
+
+.event-card {
+  background: var(--vp-c-bg-soft);
+  border-left: 4px solid var(--vp-c-brand-1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.event-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateX(4px);
+}
+
+.event-card h3 {
+  margin-top: 0;
+  color: var(--vp-c-brand-1);
+  margin-bottom: 0.8rem;
+}
+
+.event-card p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+}
+
+/**
+ * Section titre avec underline
+ */
+
+.section-title {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: var(--vp-c-brand-1);
+}
+
+/**
+ * Responsive adjustments
+ */
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
   }
-}
 
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
+  h2 {
+    font-size: 1.5rem;
   }
-}
 
-/**
- * Component: Custom Block
- * -------------------------------------------------------------------------- */
+  h3 {
+    font-size: 1.1rem;
+  }
 
-:root {
-  --vp-custom-block-tip-border: transparent;
-  --vp-custom-block-tip-text: var(--vp-c-text-1);
-  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
-  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
-}
+  .vp-doc {
+    padding: 2rem 1.5rem;
+  }
 
-/**
- * Component: Algolia
- * -------------------------------------------------------------------------- */
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
 
-.DocSearch {
-  --docsearch-primary-color: var(--vp-c-brand-1) !important;
+  .service-card,
+  .event-card {
+    padding: 1.5rem;
+  }
 }
 

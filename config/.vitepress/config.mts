@@ -9,22 +9,25 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Accueil', link: '/' },
+      { text: 'Mes interventions', link: '/interventions' },
+      { text: 'Agenda', link: '/agenda' },
+      { text: 'Portfolio', link: '/portfolio' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Navigation',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Mes interventions', link: '/interventions' },
+          { text: 'Agenda & Événements', link: '/agenda' },
+          { text: 'Portfolio', link: '/portfolio' }
         ]
       }
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'instagram', link: 'https://instagram.com/nam_bodypainting' }
     ]
   }
 })
